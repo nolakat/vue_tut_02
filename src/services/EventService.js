@@ -9,11 +9,17 @@ const apiClient = axios.create({
     }
 })
 
+//to run events json db: json-server --watch db.json
+
+
 export default{
-    getEvents() {
-        return apiClient.get('/events')
+    getEvents(perPage, page) {
+        return apiClient.get(`/events?_limit=${perPage}&_page=${page}`)
     },
     getEvent(id){
         return apiClient.get('/events/' + id)
+    },
+    postEvent(event){
+        return apiClient.post('/events', event)
     }
 }
