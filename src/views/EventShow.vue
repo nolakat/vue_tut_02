@@ -22,17 +22,16 @@
 </template>
 
 <script>
-import { mapState, mapActions } from 'vuex'
+import NProgress from 'nprogress'
+import store from '@/store/index'
 
 export default {
- props: ['id'],
- created(){
-   this.fetchEvent(this.id)
- },
- computed: mapState({
-   event: state => state.event.event 
- }),
- methods: mapActions('event', ['fetchEvent'])
+ props: {
+   event: {
+     type: Object,
+     required: true
+   }
+ }
 }
 </script>
 

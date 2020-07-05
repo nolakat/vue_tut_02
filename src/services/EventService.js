@@ -1,4 +1,6 @@
 import axios from 'axios'
+import NProgress from 'nprogress'
+
 
 const apiClient = axios.create({
     baseURL: 'http://localhost:3000',
@@ -9,7 +11,20 @@ const apiClient = axios.create({
     }
 })
 
+apiClient.interceptors.request.use(config => {
+    // console.log('START')
+    NProgress.start()
+    return config
+})
+
+apiClient.interceptors.response.use(response => {
+    // console.log('DONE')
+    NProgress.done()
+    return response 
+})
+
 //to run events json db: json-server --watch db.json
+//to delay: json-server -d 1500 db.json
 
 
 export default{
