@@ -2,36 +2,26 @@
   <div>
     <h1>Create an Event</h1>
     <form v-on:submit.prevent="createEvent">
-      <label>Select a category</label>
-      <select v-model="event.category">
-        <option v-for="cat in categories" :key="cat">{{ cat }}</option>
-      </select>
+      <BaseSelect label="Select a category" v-model="event.category" :options="categories"/>
+
       <h3>Name & describe your event</h3>
-      <div class="field">
-        <label>Title</label>
-        <input v-model="event.title" type="text" placeholder="Add an event title"/>
-      </div>
-      <div class="field">
-        <label>Description</label>
-        <input v-model="event.description" type="text" placeholder="Add a description"/>
-      </div>
-      <h3>Where is your event?</h3>
-      <div class="field">
-        <label>Location</label>
-        <input v-model="event.location" type="text" placeholder="Add a location"/>
-      </div>
+
+      <BaseInput label="Title" placeholder="Add an event title" v-model="event.title"/>
+      <BaseInput label="Description" placeholder="Add a description" v-model="event.description"/>
+      <BaseInput label="Location" placeholder="Add a location" v-model="event.location"/>
+
       <h3>When is your event?</h3>
       <div class="field">
         <label>Date</label>
         <datepicker v-model="event.date" placeholder="Select a date"/>
       </div>
-      <div class="field">
-        <label>Select a time</label>
-        <select v-model="event.time">
-          <option v-for="time in times" :key="time">{{ time }}</option>
-        </select>
-      </div>
-      <input type="submit" class="button -fill-gradient" value="Submit"/>
+
+      <BaseSelect label="Select a time" v-model="event.time" :options="times"/>
+
+      <BaseButton
+      type="submit" buttonClass="-fill-gradient">Submit</BaseButton>
+
+      <!-- <input type="submit" class="button -fill-gradient" value="Submit"/> -->
   </form>
  
   </div>
@@ -39,6 +29,9 @@
 
 <script>
 import Datepicker from 'vuejs-datepicker'
+import NProgress from 'nprogress'
+
+
 export default {
   components: {
     Datepicker
@@ -56,6 +49,8 @@ export default {
   },
   methods: {
     createEvent(){
+      NProgress.start()
+
       this.$store
         .dispatch('event/createEvent', this.event)
         .then(() => {
@@ -66,7 +61,7 @@ export default {
               this.event = this.createFreshEventObject()
       })
       .catch(() => {
-        
+        NProgress.done()
       })
     },
     createFreshEvent() {
@@ -87,6 +82,6 @@ export default {
   }
 }
 </script>
-<style>
-
+<style scoped>
+ 
 </style>
